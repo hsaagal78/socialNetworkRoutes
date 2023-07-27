@@ -1,4 +1,7 @@
+// models/thought.js (Thought model definition)
+
 const mongoose = require('mongoose');
+const reactionSchema = require('./Reaction');
 
 const thoughtSchema = new mongoose.Schema({
   thoughtText: {
@@ -11,7 +14,7 @@ const thoughtSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
     get: function (timestamp) {
-      // Format the timestamp on query
+      // Format the timestamp when querying the thought
       return new Date(timestamp).toISOString();
     },
   },
@@ -19,29 +22,10 @@ const thoughtSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  reactions: [{
-    reactionId: mongoose.Schema.Types.ObjectId,
-    reactionBody: {
-      type: String,
-      required: true,
-      maxlength: 280,
-    },
-    username: {
-      type: String,
-      required: true,
-    },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-      get: function (timestamp) {
-        // Format the timestamp on query
-        return new Date(timestamp).toISOString();
-      },
-    },
-  }],
+  reactions: [reactionSchema], // Use reactionSchema as a subdocument
 });
 
-// Virtual to retrieve reactionCount
+// Virtual to get reactionCount
 thoughtSchema.virtual('reactionCount').get(function () {
   return this.reactions.length;
 });
@@ -49,3 +33,4 @@ thoughtSchema.virtual('reactionCount').get(function () {
 const Thought = mongoose.model('Thought', thoughtSchema);
 
 module.exports = Thought;
+
