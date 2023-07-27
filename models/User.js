@@ -1,4 +1,13 @@
-const mongoose = require('mongoose');
+const { Schema, Types, model } = require("mongoose");
+const { Thought } = require('./Thought');
+
+// Regular expression for email validation
+const EMAIL_REGEX = /^.+@(?:[\w-]+\.)+\w+$/;
+// Validate email function
+const validateEmail= function(email) {
+  // Check if the email matches the regular expression
+  return EMAIL_REGEX.test(email);
+};
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -11,17 +20,26 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    match: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+    validate: [validateEmail, 'Please fill a valid email address'],
+    match: EMAIL_REGEX,
   },
   thoughts: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Thought',
+    type: Schema.Types.ObjectId,
+    ref: 'thought',
   }],
   friends: [{
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'User',
   }],
-});
+},
+{
+    toJSON: {
+      getters: true,
+      virtuals: true,
+    },
+    id: false,
+}
+);
 
 // Virtual to retrieve friendCount
 userSchema.virtual('friendCount').get(function () {

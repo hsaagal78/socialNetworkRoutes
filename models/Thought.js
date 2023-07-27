@@ -1,9 +1,9 @@
 // models/thought.js (Thought model definition)
 
-const mongoose = require('mongoose');
-const reactionSchema = require('./Reaction');
+const { Schema, model } = require("mongoose");
+const { Reaction } = require('./Reaction');
 
-const thoughtSchema = new mongoose.Schema({
+const thoughtSchema = new Schema({
   thoughtText: {
     type: String,
     required: true,
@@ -22,7 +22,7 @@ const thoughtSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  reactions: [reactionSchema], // Use reactionSchema as a subdocument
+  reactions: [{ type: Schema.Types.ObjectId, ref: 'reaction' }], // Use reactionSchema as a subdocument
 });
 
 // Virtual to get reactionCount
@@ -30,7 +30,7 @@ thoughtSchema.virtual('reactionCount').get(function () {
   return this.reactions.length;
 });
 
-const Thought = mongoose.model('Thought', thoughtSchema);
+const Thought = model('thought', thoughtSchema);
 
-module.exports = Thought;
+module.exports = { Toughts};
 
