@@ -1,3 +1,13 @@
+
+const db = require('./connection');
+
+const mongoose = require('mongoose');
+const User = require('../models/');
+
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', async () => {
+  console.log('Connected to the database');
+
 const users = [
     {
       username: 'john_doe',
@@ -60,5 +70,16 @@ const users = [
       friends: [],
     },
   ];
+  try {
+    // 
+    const insertedUsers = await User.insertMany(users);
+    console.log(`${insertedUsers.length} usuarios insertados en la base de datos.`);
+    db.close();
+  } catch (err) {
+    console.error('Error al insertar usuarios:', err);
+    db.close();
+  }
+  console.log(users);
+});
 
-  module.exports = users;
+ 

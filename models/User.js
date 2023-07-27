@@ -1,4 +1,4 @@
-const { Schema, Types, model } = require("mongoose");
+const { Schema, model, Types } = require("mongoose");
 const { Thought } = require('./Thought');
 
 // Regular expression for email validation
@@ -9,7 +9,7 @@ const validateEmail= function(email) {
   return EMAIL_REGEX.test(email);
 };
 
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema({
   username: {
     type: String,
     required: true,
@@ -46,6 +46,6 @@ userSchema.virtual('friendCount').get(function () {
   return this.friends.length;
 });
 
-const User = mongoose.model('User', userSchema);
+const User = model('User', userSchema);
 
 module.exports = User;
