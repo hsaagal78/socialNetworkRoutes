@@ -11,17 +11,17 @@ router.get('/', async (req, res ) => {
         
             {
                 path: "friends",
-                select: "_v",
-            },
-            {
+                select: "-__v",
+              },
+              {
                 path: "thoughts",
-                select: "_v",
+                select: "-__v",
                 populate: {
-                    path: "reactions",
-                    select: "-__v",
-                  },
-            },
-        ]);
+                  path: "reactions",
+                  select: "-__v",
+                },
+              },
+            ]);
         res.json(users);
 
     }catch(err) {
@@ -42,17 +42,17 @@ router.get('/:id', async (req, res ) => {
         
             {
                 path: "friends",
-                select: "_v",
-            },
-            {
+                select: "-__v",
+              },
+              {
                 path: "thoughts",
-                select: "_v",
+                select: "-__v",
                 populate: {
-                    path: "reactions",
-                    select: "-__v",
-                  },
-            },
-        ]);
+                  path: "reactions",
+                  select: "-__v",
+                },
+              },
+            ]);
         res.json(users);
 
     }catch(err) {
@@ -152,6 +152,34 @@ router.post('/:userId/friends/:friendId', async(req, res) =>{
     
     }
 });
+
+// Delete  a friend from a user's friend list
+router.delete('/:userId/friends/:friendId', async(req, res) =>{
+    try{
+        const deleteFriend = await User.findOne({_id: req.params.userId});
+
+        const update = await User.findOneAndUpdate(
+            {_id: req.params.userId},
+                 {$set: {friends: deleteFriend.friends.filter(
+                    (el) => el.toString() !== req.params.friendId
+                     ), 
+                 },
+            },
+            {runValidators: true, new: true}
+        );
+        res.json(update);
+
+    } catch {
+
+        console.log(err);
+        res.status(401).send({
+            message: err.message,
+        })
+    
+    }
+});
+
+
 
 
 
