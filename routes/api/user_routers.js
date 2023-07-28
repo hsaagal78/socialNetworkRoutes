@@ -81,6 +81,7 @@ router.post('/', async(req, res) => {
 
 });
 
+// Roter to update a user by its _id
 router.put('/:id', async(req, res) => {
 
     try{
@@ -100,6 +101,34 @@ router.put('/:id', async(req, res) => {
 
 });
 
+// Router delete to remove user by its _id
+
+router.delete('/:id', async(req, res) => {
+
+    try{
+        const deleteUser = await User.findOneAndDelete(
+            { _id: req.params.id}
+        );
+        // BONUS: Remove a user's associated thoughts when deleted
+        const deleteThoughts = await Thought.deleteMany({
+            username: deleteUser.username,
+        });
+        console.log( "Thought deleted", deleteThoughts.deletedCount +
+        " thoughts from username =" +
+        deleteUser.username);
+        
+
+        res.json(deleteUser);
+        
+        
+    } catch(err) {
+        console.log(err);
+        res.status(401).send({
+            message: err.message,
+        })
+    }
+
+});
 
 
 
