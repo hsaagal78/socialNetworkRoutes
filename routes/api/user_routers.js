@@ -130,6 +130,29 @@ router.delete('/:id', async(req, res) => {
 
 });
 
+// Router create "POST" to add a new friend to a user's friend list
+
+router.post('/:userId/friends/:friendId', async(req, res) =>{
+    try{
+        const addNewFriend = await User.findOne({_id: req.params.userId});
+
+        const update = await User.findOneAndUpdate(
+            {_id: req.params.userId},
+            {$set: {friends: [...addNewFriend.friends, req.params.friendId]}},
+            {runValidators: true, new: true}
+        );
+        res.json(update);
+
+    } catch {
+
+        console.log(err);
+        res.status(401).send({
+            message: err.message,
+        })
+    
+    }
+});
+
 
 
 
