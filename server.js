@@ -1,9 +1,11 @@
-const express = require('express');
+const express = require('express')
+const router = express.Router(); 
 const db = require('./db/connection');
 
-const usersData = require('./db/seed');
+// const usersData = require('./db/seed');
 // Import routes
 const routes = require('./routes');
+
 
 const cwd = process.cwd();
 

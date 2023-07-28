@@ -1,6 +1,6 @@
 // models/thought.js (Thought model definition)
 
-const { Schema, model } = require("mongoose");
+const { Schema, model, Types } = require("mongoose");
 const { Reaction } = require('./Reaction');
 
 const thoughtSchema = new Schema({

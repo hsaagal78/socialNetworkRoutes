@@ -2,7 +2,9 @@
 const db = require('./connection');
 
 const mongoose = require('mongoose');
-const User = require('../models/');
+const { User } = require('../models/');
+
+
 
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', async () => {
@@ -10,8 +12,8 @@ db.once('open', async () => {
 
 const users = [
     {
-      username: 'john_doe',
-      email: 'john.doe@example.com',
+      username: 'johner_doep',
+      email: 'johner.doep@example.com',
       thoughts: [],
       friends: [],
     },
@@ -73,13 +75,13 @@ const users = [
   try {
     // 
     const insertedUsers = await User.insertMany(users);
-    console.log(`${insertedUsers.length} usuarios insertados en la base de datos.`);
+    console.log(`${insertedUsers.length} insert data.`);
     db.close();
   } catch (err) {
-    console.error('Error al insertar usuarios:', err);
+    console.error('Error to insert:', err);
     db.close();
   }
-  console.log(users);
+  // console.log(users);
 });
-
+// module.exports = User;
  
