@@ -81,6 +81,26 @@ router.post('/', async(req, res) => {
 
 });
 
+router.put('/:id', async(req, res) => {
+
+    try{
+        const addUser = await User.findOneAndUpdate(
+            { _id: req.params.id},
+            { $set: req.body },
+            { runValidators: true, new: true }
+        );
+        res.json(addUser);
+
+    } catch(err) {
+        console.log(err);
+        res.status(401).send({
+            message: err.message,
+        })
+    }
+
+});
+
+
 
 
 
