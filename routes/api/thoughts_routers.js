@@ -21,7 +21,23 @@ router.get('/', async(req, res) =>{
     }
 });
 
+//Show thoughts by id
+router.get('/:id', async(req, res) =>{
+    try{
+        const userThought = await Thought.findOne({_id: req.params.id}).populate({
+            path: "reactions",
+            select: "-__v",
+          })
 
+        res.json(userThought);
+    }catch(err) {
+        console.log(err);
+        res.status(401).send({
+            message: err.message,
+        })
+
+    }
+});
 
 
 
