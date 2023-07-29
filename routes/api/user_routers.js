@@ -179,12 +179,4 @@ router.delete('/:userId/friends/:friendId', async(req, res) =>{
     }
 });
 
-
-
-
-
-
-
-
-
 module.exports = router;
