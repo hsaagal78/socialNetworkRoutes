@@ -68,8 +68,6 @@ try{
 router.put('/:id', async(req, res) => {
 
     try {
-    // const existingThought = await Thought.findOne({_id: req.params.id});
-    // console.log(existingThought);
     const update = await Thought.findByIdAndUpdate(
         {_id: req.params.id},
         {$set:  { thoughtText: req.body.thoughtText }},
@@ -77,6 +75,22 @@ router.put('/:id', async(req, res) => {
 
      );
         res.json(update);
+    } catch(err){
+        console.log(err);
+        res.status(401).send({
+            message: err.message,
+        })
+    
+
+    }
+});
+
+//Delete thought by id
+router.delete('/:id', async(req, res) => {
+
+    try {
+        const deletedThought = await Thought.findOneAndDelete({ _id: req.params.id });
+        res.json({message: 'Thought deleted succesfully!'});
     } catch(err){
         console.log(err);
         res.status(401).send({

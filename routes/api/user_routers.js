@@ -3,6 +3,7 @@ const  User  = require("../../models/User");
 const { Thought } = require("../../models/Thought");
 
 
+
 //Show all the User
 router.get('/', async (req, res ) => {
     
@@ -119,7 +120,7 @@ router.delete('/:id', async(req, res) => {
         deleteUser.username);
         
 
-        res.json(deleteUser);
+        res.json({message: 'User deleted succesfully!'});
         
         
     } catch(err) {
