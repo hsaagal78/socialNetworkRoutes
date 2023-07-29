@@ -1,11 +1,31 @@
 const router = require("express").Router();
 const  User  = require("../../models/User");
-const { Thought } = require("../../models/Thought");
+const {Thought}  = require("../../models/Thought");
+
+
+//Show all thought
+router.get('/', async(req, res) =>{
+    try{
+        const allThought = await Thought.find().populate({
+            path: "reactions",
+            select: "-__v",
+          })
+
+        res.json(allThought);
+    }catch(err) {
+        console.log(err);
+        res.status(401).send({
+            message: err.message,
+        })
+
+    }
+});
+
+
 
 
 
 // Create thoughts routers
-
 router.post('/', async(req, res) =>{
 
 try{

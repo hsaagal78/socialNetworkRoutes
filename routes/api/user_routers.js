@@ -49,6 +49,7 @@ router.get('/:id', async (req, res ) => {
                 select: "-__v",
                 populate: {
                   path: "reactions",
+                  
                   select: "-__v",
                 },
               },
