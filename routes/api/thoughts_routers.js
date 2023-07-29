@@ -46,26 +46,45 @@ router.post('/', async(req, res) =>{
 
 try{
     const addedThought = await Thought.create(req.body);
+    
 
-//created thought's _id to the associated user's thoughts array field
     const userThought = await User.findOne({username: addedThought.username });
     const insertThought = await User.findByIdAndUpdate(
         {_id: userThought._id },
-        { $set: { thoughts: [ ...userThought.thoughts, addedThought._id ]}},
+        { $push: { thoughts: addedThought}},
         { runValidators: true, new: true }
     );
-        res.json({ addedThought, insertThought})
+        res.json({insertThought})
 } catch {
 
         console.log(err);
         res.status(401).send({
             message: err.message,
         })
-    
     }
+});
 
+//update thought by id
+router.put('/:id', async(req, res) => {
 
-})
+    try {
+    // const existingThought = await Thought.findOne({_id: req.params.id});
+    // console.log(existingThought);
+    const update = await Thought.findByIdAndUpdate(
+        {_id: req.params.id},
+        {$set:  { thoughtText: req.body.thoughtText }},
+        { runValidators: true, new: true }
 
+     );
+        res.json(update);
+    } catch(err){
+        console.log(err);
+        res.status(401).send({
+            message: err.message,
+        })
+    
+
+    }
+});
 
 module.exports = router;

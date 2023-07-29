@@ -4,6 +4,10 @@ const { Schema, model, Types } = require("mongoose");
 const { Reaction } = require('./Reaction');
 
 const thoughtSchema = new Schema({
+  userId: {
+    type: Schema.Types.ObjectId,
+    default: () => new Types.ObjectId(),
+  },
   thoughtText: {
     type: String,
     required: true,
