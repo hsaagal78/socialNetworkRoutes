@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const  User  = require("../../models/User");
 const {Thought}  = require("../../models/Thought");
+const { Reaction }  = require("../../models/Reaction");
+
 
 
 //Show all thought
@@ -98,6 +100,50 @@ router.delete('/:id', async(req, res) => {
         })
     
 
+    }
+});
+
+//Create a reaction stored in a single thought's reactions array field
+router.post('/:id/reactions', async(req, res) => {
+    try{
+        const existingThought = await Thought.findById(req.params.id);
+        
+
+        const newReaction = await Reaction.create({
+            reactionBody: req.body.reactionBody,
+            username: req.body.username,
+          });
+
+
+         await existingThought.updateOne({ $push: { reactions: newReaction._id } });
+
+    res.json(newReaction);
+    } catch(err){
+        console.log(err);
+        res.status(401).send({
+            message: err.message,
+        })
+    }
+});
+
+//delete a reaction stored in a single thought's reactions array field
+router.delete('/:id/reactions/:reactionId', async(req, res) => {
+    try{
+    
+        const existingThought = await Thought.findById(req.params.thoughtId);
+
+        const deleteReaction = await Reaction.findById(req.params.reactionId);
+          
+        await deleteReaction.deleteOne();
+
+         await existingThought.updateOne({ $pull: { reactions:req.params.reactionId} });
+
+    res.json({message: " Deleted reaction succesfuly!"});
+    } catch(err){
+        console.log(err);
+        res.status(401).send({
+            message: err.message,
+        })
     }
 });
 
