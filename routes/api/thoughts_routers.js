@@ -136,7 +136,7 @@ router.delete('/:id/reactions/:reactionId', async(req, res) => {
           
         await deleteReaction.deleteOne();
 
-         await existingThought.updateOne({ $pull: { reactions:req.params.reactionId} });
+        //  await existingThought.updateOne({ $pull: {reactions:req.params.reactionId} });
 
     res.json({message: " Deleted reaction succesfuly!"});
     } catch(err){

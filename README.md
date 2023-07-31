@@ -95,3 +95,5 @@ For any inquiries, please contact me at hsagal78@gmail.com
 
 ## Video
 
+- [Describe the code and user models works using insomnia](https://drive.google.com/file/d/119Gafduz1_P1500hhRVU60xJT-t5cjDg/view)
+- [How to thoughts and reactions models works](https://drive.google.com/file/d/1fY9oIY-ccIXIh8okwp3AbPT7MZZZX9eX/view)
